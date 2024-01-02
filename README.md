@@ -114,3 +114,48 @@ print(classification_report(y_test, y_pred))
 # import joblib
 # joblib.dump(model, 'flight_delay_model.joblib')
 s
+# Unique Flight Delay Prediction Model - Kaggle Competition
+# Jupyter Notebook Code
+
+# Import libraries
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.preprocessing import LabelEncoder
+from xgboost import XGBClassifier
+
+# Load Kaggle dataset
+data = pd.read_csv('kaggle_flight_data.csv')
+
+# Feature engineering
+features = ['Feature1', 'Feature2', 'CategoricalColumn', '...']
+X = data[features]
+y = data['DepDelay']
+
+# Encode categorical variables
+label_encoder = LabelEncoder()
+X['CategoricalColumn'] = label_encoder.fit_transform(X['CategoricalColumn'])
+
+# Split data for training and testing
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a unique Flight Delay Prediction Model (XGBoost as an example)
+model = XGBClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print(f'Accuracy: {accuracy}')
+
+# Classification report for detailed evaluation
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
+
+# Save the model for future use
+# You can use joblib or pickle to save the model
+# import joblib
+# joblib.dump(model, 'unique_flight_delay_model.joblib')
